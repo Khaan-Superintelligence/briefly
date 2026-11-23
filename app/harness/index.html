@@ -1,0 +1,81 @@
+<!doctype html>
+<!-- evenhub-dev-harness 템플릿 — 프로젝트의 하니스 페이지(예: <위젯루트>/harness/index.html)로 복사해 사용.
+     아래 <script> 의 harness-main.ts 경로와, harness-main.ts 안의 widgetEntry 만 프로젝트에 맞게 바꾸면 된다. -->
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:," />
+    <title>Even G2 — Dev Harness</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; background: #0b0f0d; color: #cfe; font: 13px/1.5 system-ui, sans-serif; min-height: 100vh; overflow: auto; display: flex; flex-direction: column; }
+      header { padding: 6px 12px; background: #121a16; border-bottom: 1px solid #1f2d26; display: flex; gap: 12px; align-items: center; }
+      header b { color: #39ff88; }
+      header .hint { color: #6b8; font-size: 12px; }
+      .top { flex: 0 0 auto; display: flex; flex-direction: column; gap: 10px; padding: 12px; align-items: flex-start; }
+      .glasswrap { background: #000; border: 1px solid #223; border-radius: 10px; padding: 6px; }
+      #glass { display: block; width: 576px; height: 288px; image-rendering: pixelated; }
+      .panel { display: flex; flex-direction: column; gap: 8px; width: 588px; max-width: 100%; }
+      .panel .row { display: flex; gap: 6px; flex-wrap: wrap; }
+      button { background: #16241d; color: #cfe; border: 1px solid #2c4638; border-radius: 6px; padding: 6px 12px; cursor: pointer; font: inherit; }
+      button:hover { background: #1e3529; }
+      input { background: #0d1512; color: #cfe; border: 1px solid #2c4638; border-radius: 6px; padding: 6px 8px; font: inherit; width: 180px; }
+      .logwrap { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; border-top: 1px solid #1f2d26; }
+      .logwrap .bar { padding: 4px 12px; background: #121a16; color: #6b8; font-size: 12px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+      .fbox { display: flex; gap: 4px; align-items: center; }
+      .fbox input { width: 160px; padding: 2px 6px; font-size: 12px; }
+      .kbtn { padding: 2px 8px; font-size: 11px; border-radius: 4px; }
+      .kbtn.send { color: #7cf; } .kbtn.recv { color: #9e9; } .kbtn.event { color: #fd7; } .kbtn.info { color: #9ab; }
+      .kbtn.off { opacity: 0.3; }
+      #log { flex: 1 1 auto; overflow: auto; padding: 6px 12px; font: 12px/1.45 "SF Mono", "Menlo", monospace; }
+      .ln { white-space: pre; }
+      .ln.send { color: #7cf; }
+      .ln.recv { color: #9e9; }
+      .ln.event { color: #fd7; }
+      .ln.info { color: #9ab; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <b>Even G2 Dev Harness</b>
+      <span class="hint" data-i18n="hint">위젯 무수정 구동 · 상단=안경 렌더(근사) · 하단=실시간 로그 · F12=DevTools</span>
+      <button id="langToggle" style="margin-left:auto" title="Language">EN</button>
+    </header>
+    <div class="top">
+      <div class="glasswrap"><canvas id="glass" width="576" height="288"></canvas></div>
+      <div class="panel">
+        <div class="row">
+          <button id="bClick" data-i18n="btnClick">● Click</button>
+          <button id="bUp" data-i18n="btnUp">▲ Up (이전)</button>
+          <button id="bDown" data-i18n="btnDown">▼ Down (다음)</button>
+          <button id="bDouble" data-i18n="btnDouble">◎ Double (뒤로/종료)</button>
+        </div>
+        <div class="row">
+          <input id="geo" value="37.5665,126.9780" title="lat,lon" />
+          <button id="bGeo" data-i18n="btnGeo">📍 GPS 주입</button>
+        </div>
+        <div class="hint" data-i18n="ringHint">링 조작 대응: Up/Down=슬라이드, Click=클릭, Double=더블탭</div>
+      </div>
+    </div>
+    <!-- 위젯 폰측 UI 마운트 루트. 위젯이 #app(등)에 마운트해야 동작하는 구조면 이 요소가
+         없을 때 조용히 비활성된다. 위젯이 다른 id 를 쓰면 여기서 맞출 것.
+         기본 숨김 — 안경 뷰에는 안경 화면만 보여야 한다. 디버깅으로 표시할 때는 style 을 제거하되
+         반드시 로그 패널 "앞"인 이 위치를 유지할 것(뒤에 두면 flex 레이아웃에서 화면 밖으로 밀린다). -->
+    <div id="app" style="display:none"></div>
+    <div class="logwrap">
+      <div class="bar">
+        <span data-i18n="logTitle">실시간 디버그 로그</span>
+        <span class="fbox">
+          <input id="logFilter" data-i18n-ph="filterPh" placeholder="필터 (텍스트 포함)" />
+          <button class="kbtn send" data-logkind="send">SEND</button>
+          <button class="kbtn recv" data-logkind="recv">RECV</button>
+          <button class="kbtn event" data-logkind="event">EVENT</button>
+          <button class="kbtn info" data-logkind="info">INFO</button>
+        </span>
+      </div>
+      <div id="log"></div>
+    </div>
+    <!-- 프로젝트에 맞게 경로 조정 -->
+    <script type="module" src="./harness-main.ts"></script>
+  </body>
+</html>

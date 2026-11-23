@@ -1,0 +1,23 @@
+{
+  "outbox": [],
+  "tasks": [
+    {
+      "createdAt": "2026-11-24T03:00:00.000Z",
+      "done": false,
+      "id": "seed1",
+      "text": "Ship Briefly demo for Heads Up"
+    },
+    {
+      "createdAt": "2026-11-24T03:00:00.000Z",
+      "done": false,
+      "id": "seed2",
+      "text": "Record 3-min demo video"
+    },
+    {
+      "createdAt": "2026-11-24T03:00:00.000Z",
+      "done": false,
+      "id": "seed3",
+      "text": "Read DoraHacks rules"
+    }
+  ]
+}

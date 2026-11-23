@@ -1,0 +1,1 @@
+{"dependencies":{"imapflow":"^1.0.0"},"name":"briefly-server","private":true,"scripts":{"start":"node server.mjs","test":"node --test test/"},"type":"module","version":"0.1.0"}
