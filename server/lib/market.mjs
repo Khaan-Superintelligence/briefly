@@ -1,29 +1,33 @@
 // Live public data. No keys, no accounts, no mock data.
-// CoinGecko free price API (no key) + Hacker News front page (no key).
-// (Binance public API is geo-blocked from this host — 451 — so it is not
-// used. CoinGecko returns the same live prices.)
-const CG = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true'
+// Prices: Coinbase Exchange public stats API (Coinbase is a track-03 listed
+// app). One call per symbol, no key. 24h change is derived from the stats
+// open vs last price. Headlines: Hacker News front page (no key).
+const CB = 'https://api.exchange.coinbase.com/products'
 const HN = 'https://hn.algolia.com/api/v1/search?tags=front_page&hitsPerPage=5'
 
 const IDS = [
-  { id: 'bitcoin', symbol: 'BTC' },
-  { id: 'ethereum', symbol: 'ETH' },
-  { id: 'solana', symbol: 'SOL' },
+  { id: 'BTC', symbol: 'BTC' },
+  { id: 'ETH', symbol: 'ETH' },
+  { id: 'SOL', symbol: 'SOL' },
 ]
 
 let marketCache = { at: 0, data: null }
 let newsCache = { at: 0, data: null }
 
+async function oneStat(sym) {
+  const res = await fetch(`${CB}/${sym}-USD/stats`, { signal: AbortSignal.timeout(25000) })
+  if (!res.ok) throw new Error(`Coinbase ${sym} ${res.status}`)
+  const j = await res.json()
+  const last = Number(j.last)
+  const open = Number(j.open)
+  if (!last || !open) throw new Error(`Coinbase ${sym} bad stats`)
+  return { symbol: sym, price: last, changePct: ((last - open) / open) * 100 }
+}
+
 export async function market() {
   if (Date.now() - marketCache.at < 120_000 && marketCache.data) return marketCache.data
-  const res = await fetch(CG, { signal: AbortSignal.timeout(25000) })
-  if (!res.ok) throw new Error(`CoinGecko ${res.status}`)
-  const json = await res.json()
-  const data = IDS.map(({ id, symbol }) => ({
-    symbol,
-    price: json[id]?.usd ?? null,
-    changePct: json[id]?.usd_24h_change ?? null,
-  })).filter((m) => m.price !== null)
+  const data = (await Promise.all(IDS.map(({ id }) => oneStat(id)))).filter((m) => m.price !== null)
+  if (!data.length) throw new Error('Coinbase returned no prices')
   marketCache = { at: Date.now(), data }
   return data
 }

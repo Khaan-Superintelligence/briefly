@@ -1,9 +1,17 @@
 {
-  "outbox": [],
+  "outbox": [
+    {
+      "id": "mwtotnw1",
+      "to": "teammate",
+      "text": "Thanks for sharing the \"Ship Briefly\" demo for Heads Up. It looks great and gives a very clear overview of the project. I appreciate you sending it over.",
+      "channel": "draft",
+      "sentAt": "2026-11-23T19:57:38.737Z"
+    }
+  ],
   "tasks": [
     {
       "createdAt": "2026-11-24T03:00:00.000Z",
-      "done": false,
+      "done": true,
       "id": "seed1",
       "text": "Ship Briefly demo for Heads Up"
     },

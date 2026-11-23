@@ -8,7 +8,7 @@ Briefly is a heads-up AI work brief for Even Realities G2 smart glasses. It answ
 
 Three screens, one action each. Tap moves forward. Scroll picks an item. Double-tap closes a dialog.
 
-**Brief.** The next item on your list, mail status, live crypto prices, and top headlines, all on one 576x288 screen. Prices come from the CoinGecko public API. Headlines come from the Hacker News front page.
+**Brief.** The next item on your list, mail status, live crypto prices, and top headlines, all on one 576x288 screen. Prices come from the Coinbase public API. Headlines come from the Hacker News front page.
 
 **Tasks.** Your task list. Tap a task to mark it done. The change is saved to the backend at once, so the brief updates with it. A final list entry jumps to Ask.
 
@@ -18,8 +18,8 @@ Three screens, one action each. Tap moves forward. Scroll picks an item. Double-
 
 Every number and sentence on the glasses comes from a live service:
 
-- Answers and drafts: Gemini 3.5-flash-lite through the backend, with 3.5-flash as fallback.
-- Prices: CoinGecko free API, cached 120 seconds.
+- Answers and drafts: Gemini 3.5-flash-lite through the backend, with 3.5-flash as fallback. Gemini is Google's AI assistant, the same kind of provider as the Claude and ChatGPT entries in track 04. Those two were not usable here: no key for either, and OpenRouter, the third listed option, has a zero balance (checked 2026-11-24, topping it up would mean paying). The integration itself is real, a live model call per question, not a canned answer.
+- Prices: Coinbase Exchange public stats API, cached 120 seconds.
 - Headlines: Hacker News Algolia front page, cached 300 seconds.
 - Tasks and outbox: the Briefly backend, a plain Node server with a JSON store.
 
