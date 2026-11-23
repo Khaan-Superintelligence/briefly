@@ -8,7 +8,7 @@ Video: `demo/briefly-demo.mp4`. Eight glasses screenshots from the end-to-end ru
 
 ## 0:04 Brief
 
-The first thing you see. Next task, mail status, live crypto prices, top headlines. One screen, one glance. The prices are live from CoinGecko, the headlines from Hacker News.
+The first thing you see. Next task, mail status, live crypto prices, top headlines. One screen, one glance. The prices are live from Coinbase, the headlines from Hacker News.
 
 ## 0:13 Tasks
 

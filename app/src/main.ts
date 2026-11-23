@@ -1,6 +1,6 @@
 // Briefly — heads-up AI work brief for Even Realities G2.
 // Track 04 AI Assistants & Work (main) + Track 03 Exchanges & Stocks
-// (live market card, CoinGecko public data).
+// (live market card, Coinbase public data).
 //
 // Screens: Brief -> Tasks -> Ask -> Brief (tap advances; scroll selects).
 // Tap = the current screen's primary action; double-tap = exit dialog.

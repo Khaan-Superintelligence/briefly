@@ -67,7 +67,7 @@ demo/     End-to-end runner, screenshots, and the demo video.
 harness/  Headless test harness (see below).
 ```
 
-The app talks to the backend over HTTP. The backend calls Gemini, CoinGecko, and Hacker News, and keeps tasks in `server/data.json`. Upstream calls are slow on some networks, so the backend caches prices for 120 seconds and headlines for 300 seconds, and retries a timed-out Gemini call once. The app gives each request 30 seconds before it reports the backend as offline.
+The app talks to the backend over HTTP. The backend calls Gemini, Coinbase, and Hacker News, and keeps tasks in `server/data.json`. Upstream calls are slow on some networks, so the backend caches prices for 120 seconds and headlines for 300 seconds, and retries a timed-out Gemini call once. The app gives each request 30 seconds before it reports the backend as offline.
 
 ## Testing
 
